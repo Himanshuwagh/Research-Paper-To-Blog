@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Paper PDF to Blog - Ready in Just a Click</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f8fb;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #ff4500;
+            margin-bottom: 30px;
+            margin-top: 100px;
+            
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        h1:hover {
+            transform: scale(1.05);
+        }
+
+        form {
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none; /* Hides the default file input */
+        }
+        
+        .submit-container {
+            display: flex;
+            justify-content: center; /* Centers the button horizontally */
+            margin-top: 20px; /* Adds spacing above the button */
+        }
+        
+        .file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .file-label:hover {
+            background-color: #ff4500;
+            transform: translateY(-3px);
+        }
+
+        .file-label:active {
+            background-color: #2A6496;
+            transform: translateY(0);
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .textarea-wrapper {
+            display: flex;
+            justify-content: center; /* Center the textarea horizontally */
+            margin-top: 10px;
+        }
+
+        textarea {
+            width: 80%;
+            max-width: 1000px; /* Restricts the maximum width for larger screens */
+            padding: 15px; /* Adds inner spacing */
+            border: 2px solid #ddd; /* Subtle border */
+            border-radius: 8px; /* Rounded corners */
+            font-size: 16px; /* Larger, readable text */
+            font-family: 'Arial', sans-serif;
+            color: #333; /* Neutral text color */
+            background-color: #f9f9f9; /* Slightly off-white background */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+        }
+
+        textarea:hover {
+            border-color: #ff4500; /* Highlight on hover */
+        }
+
+        textarea:focus {
+            border-color: #ff4500; /* Highlight border on focus */
+            box-shadow: 0 0 8px rgba(255, 69, 0, 0.3); /* Add subtle glow */
+            outline: none; /* Remove default outline */
+        }
+
+        textarea::placeholder {
+            color: #999; /* Subtle placeholder color */
+            font-style: italic; /* Makes placeholder text distinct */
+        }
+
+        input[type="submit"] {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff4500;
+            transform: translateY(-3px);
+        }
+
+        input[type="submit"]:active {
+            background-color: #2A6496;
+            transform: translateY(0);
+        }
+
+        .home-button {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #ff4500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .home-button:hover {
+            text-decoration: underline;
+            color: #ff4500;
+        }
+
+        .important-info {
+            margin-top: 30px;
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .text-container {
+            width: 80%;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #ffffff; /* Clean white background */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            text-align: center;
+            line-height: 1.6;
+            color: #333333; /* Text color */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
+            margin-top: 50px; /* Spacing from the button */
+        }
+
+        .text-container:hover {
+            transform: translateY(-10px); /* Slight lift effect on hover */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+        }
+
+        .text-container h1 {
+            font-size: 2rem; /* Modern heading size */
+            margin-bottom: 20px;
+            color: #ff4500; /* Stylish heading color */
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        .text-container h1:hover {
+            color: #ff4500; /* Darker blue on hover */
+        }
+
+        .text-container p {
+            font-size: 1.1rem; /* Slightly larger font for readability */
+            color: #555555; /* Darker gray for text */
+            margin: 10px 0;
+            transition: color 0.3s ease; /* Smooth text color transition */
+        }
+
+        .text-container p:hover {
+            color: #ff4500; /* Change text color to blue on hover */
+            cursor: pointer;
+        }
+
+        /* Adding a subtle transition effect */
+        .text-container p, .text-container h1 {
+            transition: color 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Research Paper PDF to Blog - Ready in Just a Click</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="file-input-wrapper">
+            <label for="file" class="file-label">Select PDF File</label>
+            <input type="file" id="file" class="file-input" name="file" accept=".pdf" required>
+            <div id="file-name" class="file-name">No file chosen</div>
+        </div>
+        
+        <label for="additional_input_prompt">Add Additional Prompt (Optional):</label>
+        <div class="textarea-wrapper">
+            <textarea name="additional_input_prompt" id="additional_input_prompt" rows="5" placeholder="Write additional instructions or focus areas..."></textarea>
+        </div>
+
+        <div class="submit-container">
+            <input type="submit" value="Upload and Process">
+        </div>
+    </form>
+    <br>
+    <br>
+    <a href="/" type="submit" class="home-button">Home</a>
+
+    <!-- Added text below the home button -->
+    <div class="text-container">
+        <p>This tool is super helpful for anyone working with complex data. It saves time by automating tasks that would normally take forever to do by hand, while still giving you accurate results. We’re making it easy for researchers around the world to use and get the most out of it. Whether you’re in the lab or working on a big project, this tool can really make a difference and help you get things done faster!</p>
+    </div>
+
+    <script>
+        // JavaScript to update the file name when a file is selected
+        const fileInput = document.getElementById("file");
+        const fileNameDisplay = document.getElementById("file-name");
+
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = "No file chosen";
+            }
+        });
+    </script>
+</body>
+</html>

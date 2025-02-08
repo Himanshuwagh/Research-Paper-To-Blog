@@ -1,0 +1,167 @@
+Certainly! Below is the modified LaTeX blog with placeholders for the images inserted at appropriate locations.
+
+```latex
+\documentclass{article}
+\usepackage{amsmath, amssymb, graphicx, hyperref}
+
+\title{Understanding the Transformer Model: Attention Is All You Need}
+\author{Research Blog}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks have dominated sequence modeling and natural language processing (NLP) tasks for years. However, they inherently suffer from sequential processing constraints, making them hard to parallelize effectively. 
+
+In 2017, Vaswani et al. introduced a revolutionary architecture known as \textbf{the Transformer}, which entirely replaces recurrence with an attention mechanism. This model not only improves translation quality but also significantly reduces training times compared to recurrent architectures. 
+
+This blog explores key concepts of the Transformer model, explaining its core components, the reasons behind its efficiency, and how it outperforms previous approaches.
+
+\section{The Transformer Architecture}
+
+The Transformer follows an \textbf{encoder-decoder} structure, commonly used in sequence transduction tasks such as machine translation. Unlike RNNs, it relies entirely on \textbf{self-attention mechanisms} and feed-forward layers.
+
+\subsection{Encoder and Decoder Structures}
+
+The encoder and decoder are composed of multiple identical layers. Each encoder layer consists of:
+\begin{itemize}
+    \item A \textbf{multi-head self-attention} mechanism.
+    \item A fully connected \textbf{feed-forward neural network}.
+    \item Residual connections followed by \textbf{layer normalization}.
+\end{itemize}
+
+Similarly, the decoder layers include:
+\begin{itemize}
+    \item A masked multi-head self-attention mechanism to ensure autoregressive generation.
+    \item Encoder-decoder attention, which allows the decoder to focus on the encoder’s output.
+    \item A feed-forward network followed by normalization.
+\end{itemize}
+
+The overall architecture is illustrated below.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{static/The Transformer is a computerized.png}
+    \caption{The Transformer is a computerized}
+\end{figure}
+
+
+\section{Attention Mechanism}
+\label{sec:attention}
+
+The core innovation in the Transformer model is the attention mechanism, which enables the model to capture relationships across all positions in the sequence efficiently.
+
+\subsection{Scaled Dot Product Attention}
+
+An attention function maps a query ($Q$) and a set of key-value ($K, V$) pairs to an output. The attention is computed using:
+
+\begin{equation}
+    \text{Attention}(Q, K, V) = \text{softmax} \left(\frac{Q K^T}{\sqrt{d_k}}\right) V
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $Q$ (queries), $K$ (keys), and $V$ (values) are matrices derived from input embeddings.
+    \item $d_k$ is the dimension of the keys.
+    \item The softmax function ensures that values contributing to the output sum to 1.
+\end{itemize}
+
+The scaling factor $\frac{1}{\sqrt{d_k}}$ prevents extremely small gradient updates when $d_k$ is large.
+
+\subsection{Multi-Head Attention}
+
+Instead of applying a single attention function, the Transformer applies \textbf{multi-head attention}, where queries, keys, and values are projected into multiple subspaces and independently attended to. The results are concatenated and projected, as shown in:
+
+\begin{equation}
+    \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h) W^O
+\end{equation}
+
+where each attention head is computed as:
+
+\begin{equation}
+    \text{head}_i = \text{Attention}(Q W_i^Q, K W_i^K, V W_i^V)
+\end{equation}
+
+This mechanism allows the model to learn attention patterns from different perspectives.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{static/Multi-Head Attention consists of several.png}
+    \caption{Multi-Head Attention consists of several}
+\end{figure}
+
+
+\section{Position-Wise Feed-Forward Networks}
+
+Each encoder and decoder layer also includes a fully connected feed-forward network (FFN) applied independently at each position:
+
+\begin{equation}
+    \text{FFN}(x) = \max(0, x W_1 + b_1) W_2 + b_2
+\end{equation}
+
+where $x$ is the input, and $W_1, W_2$ are learned parameter matrices. The ReLU activation ensures non-linearity.
+
+\section{Positional Encoding}
+
+Since the Transformer lacks recurrence, it must encode positional information explicitly. Instead of relying on learned embeddings, the model uses sinusoidal positional encoding:
+
+\begin{align}
+    PE(pos, 2i) &= \sin \left(\frac{pos}{10000^{2i/d_{model}}} \right) \\
+    PE(pos, 2i+1) &= \cos \left(\frac{pos}{10000^{2i/d_{model}}} \right)
+\end{align}
+
+where $pos$ represents the position index, and $i$ is the dimension. This encoding allows the model to learn long-range dependencies naturally.
+
+\section{Why Choose Self-Attention?}
+
+\subsection{Efficiency}
+
+Unlike RNN-based models, self-attention allows for \textbf{parallel computation}, significantly reducing training time. While RNNs require sequential processing, self-attention mechanisms process all elements in parallel, making training on GPUs highly efficient.
+
+\subsection{Better Long-Range Dependency Learning}
+
+A key drawback of RNNs is their difficulty in capturing long-range dependencies due to vanishing gradients. The Transformer solves this issue by enabling \textbf{direct communication} between all positions in the sequence.
+
+\section{Performance and Results}
+
+The Transformer set new benchmarks for machine translation. On WMT 2014 English-to-German translation, it achieved a BLEU score of 28.4, outperforming previous state-of-the-art models. On English-to-French, it reached 41.0 BLEU, significantly reducing training times compared to RNN-based architectures.
+
+\section{Conclusion}
+
+The Transformer has revolutionized NLP by replacing recurrence with powerful attention mechanisms. With its ability to model long-range dependencies efficiently and allow parallel processing, it has become the backbone of modern NLP models, including BERT and GPT.
+
+\textbf{Key takeaways:}
+\begin{itemize}
+    \item Self-attention enables efficient sequence learning.
+    \item Parallelization significantly reduces training time.
+    \item The model achieves state-of-the-art results in translation.
+\end{itemize}
+
+The Transformer is now a dominant architecture in deep learning, and its advancements continue to shape the field.
+
+\vspace{10pt}
+For a deeper dive, check out the original paper: \url{https://arxiv.org/abs/1706.03762}.
+
+\end{document}
+```
+
+### Summary of Changes:
+- Inserted 
+\begin{figure}[h!]
+    \centering
+    \includegraphics{static/The Transformer is a computerized.png}
+    \caption{The Transformer is a computerized}
+\end{figure}
+` where the Transformer architecture is discussed.
+- Inserted 
+\begin{figure}[h!]
+    \centering
+    \includegraphics{static/Multi-Head Attention consists of several.png}
+    \caption{Multi-Head Attention consists of several}
+\end{figure}
+` at the point where multi-head attention is explained.
+
+This ensures that the images align well with the sections where they provide the most clarification. Let me know if you need any modifications! 🚀

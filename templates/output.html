@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Research Blog" />
+  <meta name="dcterms.date" content="2025-02-07" />
+  <title>Understanding the Transformer Model: Attention Is All You Need</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Understanding the Transformer Model: Attention Is All
+You Need</h1>
+<p class="author">Research Blog</p>
+<p class="date">2025-02-07</p>
+</header>
+<h1 id="introduction">Introduction</h1>
+<p>Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM)
+networks have dominated sequence modeling and natural language
+processing (NLP) tasks for years. However, they inherently suffer from
+sequential processing constraints, making them hard to parallelize
+effectively.</p>
+<p>In 2017, Vaswani et al. introduced a revolutionary architecture known
+as <strong>the Transformer</strong>, which entirely replaces recurrence
+with an attention mechanism. This model not only improves translation
+quality but also significantly reduces training times compared to
+recurrent architectures.</p>
+<p>This blog explores key concepts of the Transformer model, explaining
+its core components, the reasons behind its efficiency, and how it
+outperforms previous approaches.</p>
+<h1 id="the-transformer-architecture">The Transformer Architecture</h1>
+<p>The Transformer follows an <strong>encoder-decoder</strong>
+structure, commonly used in sequence transduction tasks such as machine
+translation. Unlike RNNs, it relies entirely on <strong>self-attention
+mechanisms</strong> and feed-forward layers.</p>
+<h2 id="encoder-and-decoder-structures">Encoder and Decoder
+Structures</h2>
+<p>The encoder and decoder are composed of multiple identical layers.
+Each encoder layer consists of:</p>
+<ul>
+<li><p>A <strong>multi-head self-attention</strong> mechanism.</p></li>
+<li><p>A fully connected <strong>feed-forward neural
+network</strong>.</p></li>
+<li><p>Residual connections followed by <strong>layer
+normalization</strong>.</p></li>
+</ul>
+<p>Similarly, the decoder layers include:</p>
+<ul>
+<li><p>A masked multi-head self-attention mechanism to ensure
+autoregressive generation.</p></li>
+<li><p>Encoder-decoder attention, which allows the decoder to focus on
+the encoder’s output.</p></li>
+<li><p>A feed-forward network followed by normalization.</p></li>
+</ul>
+<p>The overall architecture is illustrated below.</p>
+<figure>
+<img src="static/The Transformer is a computerized.png" />
+<figcaption>The Transformer is a computerized</figcaption>
+</figure>
+<h1 id="sec:attention">Attention Mechanism</h1>
+<p>The core innovation in the Transformer model is the attention
+mechanism, which enables the model to capture relationships across all
+positions in the sequence efficiently.</p>
+<h2 id="scaled-dot-product-attention">Scaled Dot Product Attention</h2>
+<p>An attention function maps a query (<span
+class="math inline">\(Q\)</span>) and a set of key-value (<span
+class="math inline">\(K, V\)</span>) pairs to an output. The attention
+is computed using:</p>
+<p><span class="math display">\[\text{Attention}(Q, K, V) =
+\text{softmax} \left(\frac{Q K^T}{\sqrt{d_k}}\right) V\]</span></p>
+<p>where:</p>
+<ul>
+<li><p><span class="math inline">\(Q\)</span> (queries), <span
+class="math inline">\(K\)</span> (keys), and <span
+class="math inline">\(V\)</span> (values) are matrices derived from
+input embeddings.</p></li>
+<li><p><span class="math inline">\(d_k\)</span> is the dimension of the
+keys.</p></li>
+<li><p>The softmax function ensures that values contributing to the
+output sum to 1.</p></li>
+</ul>
+<p>The scaling factor <span
+class="math inline">\(\frac{1}{\sqrt{d_k}}\)</span> prevents extremely
+small gradient updates when <span class="math inline">\(d_k\)</span> is
+large.</p>
+<h2 id="multi-head-attention">Multi-Head Attention</h2>
+<p>Instead of applying a single attention function, the Transformer
+applies <strong>multi-head attention</strong>, where queries, keys, and
+values are projected into multiple subspaces and independently attended
+to. The results are concatenated and projected, as shown in:</p>
+<p><span class="math display">\[\text{MultiHead}(Q, K, V) =
+\text{Concat}(\text{head}_1, ..., \text{head}_h) W^O\]</span></p>
+<p>where each attention head is computed as:</p>
+<p><span class="math display">\[\text{head}_i = \text{Attention}(Q
+W_i^Q, K W_i^K, V W_i^V)\]</span></p>
+<p>This mechanism allows the model to learn attention patterns from
+different perspectives.</p>
+<figure>
+<img src="static/Multi-Head Attention consists of several.png" />
+<figcaption>Multi-Head Attention consists of several</figcaption>
+</figure>
+<h1 id="position-wise-feed-forward-networks">Position-Wise Feed-Forward
+Networks</h1>
+<p>Each encoder and decoder layer also includes a fully connected
+feed-forward network (FFN) applied independently at each position:</p>
+<p><span class="math display">\[\text{FFN}(x) = \max(0, x W_1 + b_1) W_2
++ b_2\]</span></p>
+<p>where <span class="math inline">\(x\)</span> is the input, and <span
+class="math inline">\(W_1, W_2\)</span> are learned parameter matrices.
+The ReLU activation ensures non-linearity.</p>
+<h1 id="positional-encoding">Positional Encoding</h1>
+<p>Since the Transformer lacks recurrence, it must encode positional
+information explicitly. Instead of relying on learned embeddings, the
+model uses sinusoidal positional encoding:</p>
+<p><span class="math display">\[\begin{aligned}
+    PE(pos, 2i) &amp;= \sin \left(\frac{pos}{10000^{2i/d_{model}}}
+\right) \\
+    PE(pos, 2i+1) &amp;= \cos \left(\frac{pos}{10000^{2i/d_{model}}}
+\right)
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(pos\)</span> represents the
+position index, and <span class="math inline">\(i\)</span> is the
+dimension. This encoding allows the model to learn long-range
+dependencies naturally.</p>
+<h1 id="why-choose-self-attention">Why Choose Self-Attention?</h1>
+<h2 id="efficiency">Efficiency</h2>
+<p>Unlike RNN-based models, self-attention allows for <strong>parallel
+computation</strong>, significantly reducing training time. While RNNs
+require sequential processing, self-attention mechanisms process all
+elements in parallel, making training on GPUs highly efficient.</p>
+<h2 id="better-long-range-dependency-learning">Better Long-Range
+Dependency Learning</h2>
+<p>A key drawback of RNNs is their difficulty in capturing long-range
+dependencies due to vanishing gradients. The Transformer solves this
+issue by enabling <strong>direct communication</strong> between all
+positions in the sequence.</p>
+<h1 id="performance-and-results">Performance and Results</h1>
+<p>The Transformer set new benchmarks for machine translation. On WMT
+2014 English-to-German translation, it achieved a BLEU score of 28.4,
+outperforming previous state-of-the-art models. On English-to-French, it
+reached 41.0 BLEU, significantly reducing training times compared to
+RNN-based architectures.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The Transformer has revolutionized NLP by replacing recurrence with
+powerful attention mechanisms. With its ability to model long-range
+dependencies efficiently and allow parallel processing, it has become
+the backbone of modern NLP models, including BERT and GPT.</p>
+<p><strong>Key takeaways:</strong></p>
+<ul>
+<li><p>Self-attention enables efficient sequence learning.</p></li>
+<li><p>Parallelization significantly reduces training time.</p></li>
+<li><p>The model achieves state-of-the-art results in
+translation.</p></li>
+</ul>
+<p>The Transformer is now a dominant architecture in deep learning, and
+its advancements continue to shape the field.</p>
+<p>For a deeper dive, check out the original paper: <a
+href="https://arxiv.org/abs/1706.03762"
+class="uri">https://arxiv.org/abs/1706.03762</a>.</p>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <title>Generated Blog Post</title>
+    <style>
+        .home-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center; /* Center items in the gallery */
+        }
+
+        .gallery img {
+            max-width: 100%; /* Image won't exceed the width of its container */
+            height: auto;
+            width: auto; /* Maintain aspect ratio */
+            max-height: 300px; /* Optional: set a maximum height for images */
+            object-fit: contain; /* Ensures the whole image is visible */
+            flex-grow: 1; /* Allow images to grow if there's space */
+            flex-basis: 200px; /* Default width for images */
+        }
+
+        /* Optional: Media query for responsiveness */
+        @media (max-width: 600px) {
+            .gallery img {
+                flex-basis: calc(50% - 10px); /* Two images per row on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">Home</a>
+    <h1>Generated Blog Post</h1>
+    <pre>{{ text | safe}}</pre>
+    <br>
+    <!-- FILEPATH: /Users/himanshuwagh/Documents/PAPER_TO_BLOG_PROJECT/templates/result.html -->
+    <!-- BEGIN: ed8c6549bwf9 -->
+    <!--
+        <h3>Images from the Document</h3>
+        <div class="gallery">
+            {% for image in images %}
+            <img src="{{ url_for('static', filename=image) }}" alt="{{ image }}">
+            {% endfor %}
+        </div>
+        <br>
+    -->
+    <!-- END: ed8c6549bwf9 -->
+    <h3>Appendix</h3>
+    
+    <a href="/">Upload another PDF</a>
+</body>
+</html>
