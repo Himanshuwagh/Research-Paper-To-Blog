@@ -11,6 +11,10 @@ This project is a Flask-based web application that converts research papers (in 
 - **LaTeX to HTML Conversion**: Converts the generated LaTeX content into HTML using Pandoc.
 - **Web Interface**: Provides a simple web interface for uploading PDFs and viewing the generated blog post.
 
+<img src="https://github.com/Himanshuwagh/Research-Paper-To-Blog/blob/main/test_imgs/3F0946C9-BF5D-4E9E-8DDE-B6C2942C79E5_4_5005_c.jpeg" alt="img1" width="500" height="300"/>
+<img src="https://github.com/Himanshuwagh/Research-Paper-To-Blog/blob/main/test_imgs/094EA462-113E-47EC-AE7C-0682AF0AA139_1_201_a.jpeg" alt="img2" width="500" hieght="300" />
+<img src="https://github.com/Himanshuwagh/Research-Paper-To-Blog/blob/main/test_imgs/33B5573F-4DE9-4431-A44B-8D2E8D21BD03_1_201_a.jpeg" alt="img3" width="500" hieght="300" />
+
 ## Installation
 
 1. **Clone the repository**:
